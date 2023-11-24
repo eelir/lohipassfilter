@@ -9,37 +9,243 @@
         .container {
             margin-top: 20px;
         }
+
         .tab-content {
             margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h2 class="mb-4 text-center">Filter Calculators</h2>
+<div class="container">
+    <h2 class="mb-4 text-center">Filter Calculators</h2>
 
-        <!-- Tab Navigation -->
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#frequencyTab">Frequency Calculator</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#resistorTab">Resistor Calculator</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#capacitorTab">Capacitor Calculator</a>
-            </li>
-        </ul>
+    <!-- Tab Navigation -->
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#frequencyTab">Frequency Calculator</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#resistorTab">Resistor Calculator</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#capacitorTab">Capacitor Calculator</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#potRangeTab">Potentiometer/Trimmer Frequency Range</a>
+        </li>
+    </ul>
 
-        <!-- Tab Content -->
-        <div class="tab-content">
-            <!-- Frequency Calculator Tab -->
-            <div id="frequencyTab" class="container tab-pane active"><br>
-                <!-- Frequency Calculator HTML -->
-                <!-- Form Group for Resistance -->
+    <!-- Tab Content -->
+    <div class="tab-content">
+        <!-- Frequency Calculator Tab -->
+        <div id="frequencyTab" class="container tab-pane active"><br>
+            <!-- Frequency Calculator HTML -->
+            <!-- Form Group for Resistance -->
+            <div class="form-group">
+                <label for="resistance">Resistance:</label>
+                <input type="number" class="form-control" id="resistance" name="resistance" min="0">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="ohms" name="resistorUnit" value="ohms" checked>
+                    <label class="form-check-label" for="ohms">Ohms (Ω)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="kohms" name="resistorUnit" value="kohms">
+                    <label class="form-check-label" for="kohms">Kiloohms (kΩ)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="mohms" name="resistorUnit" value="mohms">
+                    <label class="form-check-label" for="mohms">Megaohms (MΩ)</label>
+                </div>
+            </div>
+
+            <!-- Form Group for Capacitance -->
+            <div class="form-group">
+                <label for="capacitance">Capacitance:</label>
+                <input type="number" class="form-control" id="capacitance" name="capacitance" min="0" step="any">
+                <!-- Capacitance Units -->
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="farads" name="capacitorUnit" value="farads"
+                           checked>
+                    <label class="form-check-label" for="farads">Farads (F)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="microfarads" name="capacitorUnit"
+                           value="microfarads">
+                    <label class="form-check-label" for="microfarads">Microfarads (μF)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="nanofarads" name="capacitorUnit"
+                           value="nanofarads">
+                    <label class="form-check-label" for="nanofarads">Nanofarads (nF)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="picofarads" name="capacitorUnit"
+                           value="picofarads">
+                    <label class="form-check-label" for="picofarads">Picofarads (pF)</label>
+                </div>
+            </div>
+
+            <!-- Calculate Button -->
+            <button class="btn btn-primary mb-3" onclick="calculateFrequency()">Calculate Cutoff Frequency</button>
+
+            <!-- Frequency Display -->
+            <div class="form-group">
+                <label>Cutoff Frequency:</label>
+                <input type="text" class="form-control" id="cutoffFrequency" readonly>
+            </div>
+        </div>
+
+        <!-- Resistor Calculator Tab -->
+        <div id="resistorTab" class="container tab-pane fade"><br>
+            <!-- Resistor Calculator HTML -->
+            <!-- Frequency Input -->
+            <div class="form-group">
+                <label for="frequency">Desired Cutoff Frequency:</label>
+                <input type="number" class="form-control" id="frequencyR" name="frequencyR" min="0">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="hz" name="frequencyUnit" value="hz" checked>
+                    <label class="form-check-label" for="hz">Hertz (Hz)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="khz" name="frequencyUnit" value="khz">
+                    <label class="form-check-label" for="khz">Kilohertz (kHz)</label>
+                </div>
+            </div>
+
+            <!-- Capacitance Input -->
+            <div class="form-group">
+                <label for="capacitance">Capacitance:</label>
+                <input type="number" class="form-control" id="capacitanceR" name="capacitanceR" min="0" step="any">
+                <!-- Capacitance Units -->
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="farads" name="capacitorUnit" value="farads"
+                           checked>
+                    <label class="form-check-label" for="farads">Farads (F)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="microfarads" name="capacitorUnit"
+                           value="microfarads">
+                    <label class="form-check-label" for="microfarads">Microfarads (μF)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="nanofarads" name="capacitorUnit"
+                           value="nanofarads">
+                    <label class="form-check-label" for="nanofarads">Nanofarads (nF)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="picofarads" name="capacitorUnit"
+                           value="picofarads">
+                    <label class="form-check-label" for "picofarads">Picofarads (pF)</label>
+                </div>
+            </div>
+
+            <!-- Calculate Button -->
+            <button class="btn btn-primary mb-3" onclick="calculateResistor()">Calculate Required Resistor</button>
+
+            <!-- Resistor Display -->
+            <div class="form-group">
+                <label>Required Resistor Value:</label>
+                <input type="text" class="form-control" id="requiredResistor" readonly>
+            </div>
+        </div>
+
+        <!-- Capacitor Calculator Tab -->
+        <div id="capacitorTab" class="container tab-pane fade"><br>
+            <!-- Capacitor Calculator HTML -->
+            <div class="form-group">
+                <label for="frequencyC">Desired Cutoff Frequency:</label>
+                <input type="number" class="form-control" id="frequencyC" name="frequencyC" min="0">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="hzC" name="frequencyUnitC" value="hz" checked>
+                    <label class="form-check-label" for="hzC">Hertz (Hz)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="khzC" name="frequencyUnitC" value="khz">
+                    <label class="form-check-label" for="khzC">Kilohertz (kHz)</label>
+                </div>
+            </div>
+
+            <!-- Resistance Input for Capacitor Calculator -->
+            <div class="form-group">
+                <label for="resistanceC">Resistance:</label>
+                <input type="number" class="form-control" id="resistanceC" name="resistanceC" min="0">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="ohmsC" name="resistorUnitC" value="ohms" checked>
+                    <label class="form-check-label" for="ohmsC">Ohms (Ω)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="kohmsC" name="resistorUnitC" value="kohms">
+                    <label class="form-check-label" for="kohmsC">Kiloohms (kΩ)</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" id="mohmsC" name="resistorUnitC" value="mohms">
+                    <label class="form-check-label" for="mohmsC">Megaohms (MΩ)</label>
+                </div>
+            </div>
+
+            <!-- Calculate Button -->
+            <button class="btn btn-primary mb-3" onclick="calculateCapacitor()">Calculate Required Capacitor</button>
+
+            <!-- Capacitor Display -->
+            <div class="form-group">
+                <label>Required Capacitor Value:</label>
+                <input type="text" class="form-control" id="requiredCapacitor" readonly>
+            </div>
+        </div>
+
+    <!-- Potentiometer Range Calculator Tab -->
+    <div id="potRangeTab" class="container tab-pane fade"><br>
+
+        <!-- Potentiometer Selection -->
+        <div class="form-group">
+            <label>Select Potentiometer:</label><br>
+            <!-- Radio buttons for potentiometer values -->
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="pot1K" name="potValue" value="1000">
+                <label class="form-check-label" for="pot1K">1K Ω</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="pot2K" name="potValue" value="2000">
+                <label class="form-check-label" for="pot2K">2K Ω</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="pot5K" name="potValue" value="5000">
+                <label class="form-check-label" for="pot5K">5K Ω</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="pot10K" name="potValue" value="10000" checked>
+                <label class="form-check-label" for="pot10K">10K Ω</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="pot25K" name="potValue" value="25000">
+                <label class="form-check-label" for="pot25K">25K Ω</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="pot50K" name="potValue" value="50000">
+                <label class="form-check-label" for="pot50K">50K Ω</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="pot100K" name="potValue" value="100000">
+                <label class="form-check-label" for="pot100K">100K Ω</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="pot250K" name="potValue" value="250000">
+                <label class="form-check-label" for="pot250K">250K Ω</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="pot500K" name="potValue" value="500000">
+                <label class="form-check-label" for="pot500K">500K Ω</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="pot1M" name="potValue" value="1000000">
+                <label class="form-check-label" for="pot1M">1M Ω</label>
+            </div>
+        </div>
+
+        <!-- Form Group for Resistance -->
         <div class="form-group">
             <label for="resistance">Resistance:</label>
-            <input type="number" class="form-control" id="resistance" name="resistance" min="0">
+            <input type="number" class="form-control" id="resistancePot" name="resistancePot" min="0" value="0">
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" id="ohms" name="resistorUnit" value="ohms" checked>
                 <label class="form-check-label" for="ohms">Ohms (Ω)</label>
@@ -54,10 +260,11 @@
             </div>
         </div>
 
+
         <!-- Form Group for Capacitance -->
         <div class="form-group">
             <label for="capacitance">Capacitance:</label>
-            <input type="number" class="form-control" id="capacitance" name="capacitance" min="0" step="any">
+            <input type="number" class="form-control" id="capacitancePot" name="capacitancePot" min="0" step="any">
             <!-- Capacitance Units -->
             <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" id="farads" name="capacitorUnit" value="farads" checked>
@@ -78,117 +285,22 @@
         </div>
 
         <!-- Calculate Button -->
-        <button class="btn btn-primary mb-3" onclick="calculateFrequency()">Calculate Cutoff Frequency</button>
+        <button class="btn btn-primary mb-3" onclick="calculatePotRange()">Calculate Cutoff Frequency Range</button>
 
-        <!-- Frequency Display -->
+        <!-- Frequency Range Display -->
         <div class="form-group">
-            <label>Cutoff Frequency:</label>
-            <input type="text" class="form-control" id="cutoffFrequency" readonly>
-        </div>
-            </div>
-
-            <!-- Resistor Calculator Tab -->
-            <div id="resistorTab" class="container tab-pane fade"><br>
-                <!-- Resistor Calculator HTML -->
-                        <!-- Frequency Input -->
-        <div class="form-group">
-            <label for="frequency">Desired Cutoff Frequency:</label>
-            <input type="number" class="form-control" id="frequencyR" name="frequencyR" min="0">
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="hz" name="frequencyUnit" value="hz" checked>
-                <label class="form-check-label" for="hz">Hertz (Hz)</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="khz" name="frequencyUnit" value="khz">
-                <label class="form-check-label" for="khz">Kilohertz (kHz)</label>
-            </div>
-        </div>
-
-        <!-- Capacitance Input -->
-        <div class="form-group">
-            <label for="capacitance">Capacitance:</label>
-            <input type="number" class="form-control" id="capacitanceR" name="capacitanceR" min="0" step="any">
-            <!-- Capacitance Units -->
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="farads" name="capacitorUnit" value="farads" checked>
-                <label class="form-check-label" for="farads">Farads (F)</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="microfarads" name="capacitorUnit" value="microfarads">
-                <label class="form-check-label" for="microfarads">Microfarads (μF)</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="nanofarads" name="capacitorUnit" value="nanofarads">
-                <label class="form-check-label" for="nanofarads">Nanofarads (nF)</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" id="picofarads" name="capacitorUnit" value="picofarads">
-                <label class="form-check-label" for "picofarads">Picofarads (pF)</label>
-            </div>
-        </div>
-
-        <!-- Calculate Button -->
-        <button class="btn btn-primary mb-3" onclick="calculateResistor()">Calculate Required Resistor</button>
-
-        <!-- Resistor Display -->
-        <div class="form-group">
-            <label>Required Resistor Value:</label>
-            <input type="text" class="form-control" id="requiredResistor" readonly>
-        </div>
-            </div>
-
-            <!-- Capacitor Calculator Tab -->
-            <div id="capacitorTab" class="container tab-pane fade"><br>
-                <!-- Capacitor Calculator HTML -->
-                <div class="form-group">
-        <label for="frequencyC">Desired Cutoff Frequency:</label>
-        <input type="number" class="form-control" id="frequencyC" name="frequencyC" min="0">
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="hzC" name="frequencyUnitC" value="hz" checked>
-            <label class="form-check-label" for="hzC">Hertz (Hz)</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="khzC" name="frequencyUnitC" value="khz">
-            <label class="form-check-label" for="khzC">Kilohertz (kHz)</label>
+            <label>Cutoff Frequency Range:</label>
+            <input type="text" class="form-control" id="frequencyRange" readonly>
         </div>
     </div>
-
-    <!-- Resistance Input for Capacitor Calculator -->
-    <div class="form-group">
-        <label for="resistanceC">Resistance:</label>
-        <input type="number" class="form-control" id="resistanceC" name="resistanceC" min="0">
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="ohmsC" name="resistorUnitC" value="ohms" checked>
-            <label class="form-check-label" for="ohmsC">Ohms (Ω)</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="kohmsC" name="resistorUnitC" value="kohms">
-            <label class="form-check-label" for="kohmsC">Kiloohms (kΩ)</label>
-        </div>
-        <div class="form-check form-check-inline">
-            <input class="form-check-input" type="radio" id="mohmsC" name="resistorUnitC" value="mohms">
-            <label class="form-check-label" for="mohmsC">Megaohms (MΩ)</label>
-        </div>
-    </div>
-
-    <!-- Calculate Button -->
-    <button class="btn btn-primary mb-3" onclick="calculateCapacitor()">Calculate Required Capacitor</button>
-
-    <!-- Capacitor Display -->
-    <div class="form-group">
-        <label>Required Capacitor Value:</label>
-        <input type="text" class="form-control" id="requiredCapacitor" readonly>
-    </div>
-            </div>
-        </div>
-    </div>
-
+</div>
+</div>
     <!-- JavaScript and Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script>
-       function calculateFrequency() {
+        function calculateFrequency() {
             var R = parseFloat(document.getElementById('resistance').value);
             var C = parseFloat(document.getElementById('capacitance').value);
             var resistorUnit = document.querySelector('input[name="resistorUnit"]:checked').value;
@@ -219,9 +331,9 @@
                 alert("Please enter positive values for R and C.");
             }
         }
-        
-        
-function calculateResistor() {
+
+
+        function calculateResistor() {
             var fc = parseFloat(document.getElementById('frequencyR').value);
             var C = parseFloat(document.getElementById('capacitanceR').value);
             var frequencyUnit = document.querySelector('input[name="frequencyUnit"]:checked').value;
@@ -244,57 +356,105 @@ function calculateResistor() {
             if (fc > 0 && C > 0) {
                 var R = 1 / (2 * Math.PI * fc * C);
                 var resistorDisplay;
-   				 if (R >= 1e6) {
-       				 resistorDisplay = (R / 1e6).toFixed(2) + " MΩ";
-   				 } else if (R >= 1e3) {
-        			resistorDisplay = (R / 1e3).toFixed(2) + " kΩ";
-    			} else {
-        			resistorDisplay = R.toFixed(2) + " Ω";
-    			}
+                if (R >= 1e6) {
+                    resistorDisplay = (R / 1e6).toFixed(2) + " MΩ";
+                } else if (R >= 1e3) {
+                    resistorDisplay = (R / 1e3).toFixed(2) + " kΩ";
+                } else {
+                    resistorDisplay = R.toFixed(2) + " Ω";
+                }
                 document.getElementById('requiredResistor').value = resistorDisplay;
             } else {
                 alert("Please enter positive values for frequency and C.");
             }
         }
 
-        
-function calculateCapacitor() {
-    var fc = parseFloat(document.getElementById('frequencyC').value);
-    var R = parseFloat(document.getElementById('resistanceC').value);
-    var frequencyUnit = document.querySelector('input[name="frequencyUnitC"]:checked').value;
-    var resistorUnit = document.querySelector('input[name="resistorUnitC"]:checked').value;
 
-    // Convert frequency to Hertz
-    if (frequencyUnit === "khz") {
-        fc *= 1000; // Convert Kilohertz to Hertz
-    }
+        function calculateCapacitor() {
+            var fc = parseFloat(document.getElementById('frequencyC').value);
+            var R = parseFloat(document.getElementById('resistanceC').value);
+            var frequencyUnit = document.querySelector('input[name="frequencyUnitC"]:checked').value;
+            var resistorUnit = document.querySelector('input[name="resistorUnitC"]:checked').value;
 
-    // Convert resistance to Ohms
-    if (resistorUnit === "kohms") {
-        R *= 1000; // Convert Kiloohms to Ohms
-    } else if (resistorUnit === "mohms") {
-        R *= 1000000; // Convert Megaohms to Ohms
-    }
+            // Convert frequency to Hertz
+            if (frequencyUnit === "khz") {
+                fc *= 1000; // Convert Kilohertz to Hertz
+            }
 
-    if (fc > 0 && R > 0) {
-        var C = 1 / (2 * Math.PI * fc * R);
-        var capacitorDisplay;
+            // Convert resistance to Ohms
+            if (resistorUnit === "kohms") {
+                R *= 1000; // Convert Kiloohms to Ohms
+            } else if (resistorUnit === "mohms") {
+                R *= 1000000; // Convert Megaohms to Ohms
+            }
 
-        // Determine the appropriate unit for the capacitance
-        if (C >= 1e-6) {
-            capacitorDisplay = (C * 1e6).toFixed(2) + " μF";
-        } else if (C >= 1e-9) {
-            capacitorDisplay = (C * 1e9).toFixed(2) + " nF";
-        } else if (C >= 1e-12) {
-            capacitorDisplay = (C * 1e12).toFixed(2) + " pF";
-        } else {
-            capacitorDisplay = C.toFixed(9) + " F";
+            if (fc > 0 && R > 0) {
+                var C = 1 / (2 * Math.PI * fc * R);
+                var capacitorDisplay;
+
+                // Determine the appropriate unit for the capacitance
+                if (C >= 1e-6) {
+                    capacitorDisplay = (C * 1e6).toFixed(2) + " μF";
+                } else if (C >= 1e-9) {
+                    capacitorDisplay = (C * 1e9).toFixed(2) + " nF";
+                } else if (C >= 1e-12) {
+                    capacitorDisplay = (C * 1e12).toFixed(2) + " pF";
+                } else {
+                    capacitorDisplay = C.toFixed(9) + " F";
+                }
+                document.getElementById('requiredCapacitor').value = capacitorDisplay;
+            } else {
+                alert("Please enter positive values for frequency and R.");
+            }
         }
-        document.getElementById('requiredCapacitor').value = capacitorDisplay;
-    } else {
-        alert("Please enter positive values for frequency and R.");
-    }
-}
+
+        function calculatePotRange() {
+            var potValue = parseFloat(document.querySelector('input[name="potValue"]:checked').value);
+            var additionalResistorValue = parseFloat(document.getElementById('resistancePot').value);
+            var C = parseFloat(document.getElementById('capacitancePot').value);
+            var resistorUnit = document.querySelector('input[name="resistorUnit"]:checked').value;
+
+            if (isNaN(C) || C <= 0 || isNaN(additionalResistorValue)) {
+                alert("Please enter positive values for capacitance and additional resistor.");
+                return;
+            }
+
+            // Convert resistance to Ohms based on the selected unit
+            if (resistorUnit === "kohms") {
+                additionalResistorValue *= 1000; // Convert Kiloohms to Ohms
+            } else if (resistorUnit === "mohms") {
+                additionalResistorValue *= 1000000; // Convert Megaohms to Ohms
+            }
+
+            // Convert capacitance to Farads based on the selected unit
+            var capacitorUnit = document.querySelector('input[name="capacitorUnit"]:checked').value;
+            if (capacitorUnit === "microfarads") {
+                C *= 1e-6; // Convert Microfarads to Farads
+            } else if (capacitorUnit === "nanofarads") {
+                C *= 1e-9; // Convert Nanofarads to Farads
+            } else if (capacitorUnit === "picofarads") {
+                C *= 1e-12; // Convert Picofarads to Farads
+            }
+
+            // Calculate the frequency range with the additional resistor
+            var totalMinResistor = additionalResistorValue; // Min resistance with pot at 0%
+            var totalMaxResistor = potValue + additionalResistorValue; // Max resistance with pot at 100%
+
+            var maxFrequency = 1 / (2 * Math.PI * totalMinResistor * C);
+            var minFrequency = 1 / (2 * Math.PI * totalMaxResistor * C);
+
+            // Format the frequency display
+            var minFrequencyDisplay = formatFrequency(minFrequency);
+            var maxFrequencyDisplay = formatFrequency(maxFrequency);
+
+            document.getElementById('frequencyRange').value = "min: " + minFrequencyDisplay + " max: " + maxFrequencyDisplay;
+        }
+
+        function formatFrequency(freq) {
+            return freq >= 1000 ? (freq / 1000).toFixed(2) + " kHz" : freq.toFixed(2) + " Hz";
+        }
+
+
 
     </script>
 </body>
